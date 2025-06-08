@@ -1,0 +1,9 @@
+com\empresa\alquiler\model\Pelicula.class
+com\empresa\alquiler\app\MainApp.class
+com\empresa\alquiler\model\Alquiler.class
+com\empresa\alquiler\model\Cliente.class
+com\empresa\alquiler\App.class
+com\empresa\alquiler\model\enums\EstadoAlquiler.class
+com\empresa\alquiler\model\DetalleAlquiler.class
+com\empresa\alquiler\service\AlquilerService.class
+com\empresa\alquiler\model\DetalleAlquilerId.class
