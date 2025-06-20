@@ -1,18 +1,16 @@
 package com.empresa.alquiler.controller;
 
 import com.empresa.alquiler.service.AlquilerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class PeliculasController {
-
-    private final AlquilerService alquilerService;
-
-    public PeliculasController(AlquilerService alquilerService) {
-        this.alquilerService = alquilerService;
-    }
+    @Autowired
+    private AlquilerService alquilerService;
 
     @GetMapping("/peliculas")
     public String mostrarPeliculas(Model model) {

@@ -3,6 +3,8 @@ package com.empresa.alquiler.service;
 import com.empresa.alquiler.model.*;
 import com.empresa.alquiler.model.enums.EstadoAlquiler;
 import com.empresa.alquiler.repository.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,20 +15,14 @@ import java.util.List;
 @Service
 public class AlquilerService {
 
-    private final AlquilerRepository alquilerRepository;
-    private final ClienteRepository clienteRepository;
-    private final PeliculaRepository peliculaRepository;
-    private final DetalleAlquilerRepository detalleAlquilerRepository;
-
-    public AlquilerService(AlquilerRepository alquilerRepository,
-                           ClienteRepository clienteRepository,
-                           PeliculaRepository peliculaRepository,
-                           DetalleAlquilerRepository detalleAlquilerRepository) {
-        this.alquilerRepository = alquilerRepository;
-        this.clienteRepository = clienteRepository;
-        this.peliculaRepository = peliculaRepository;
-        this.detalleAlquilerRepository = detalleAlquilerRepository;
-    }
+    @Autowired
+    private AlquilerRepository alquilerRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private PeliculaRepository peliculaRepository;
+    @Autowired
+    private DetalleAlquilerRepository detalleAlquilerRepository;
 
     public List<Cliente> obtenerClientes() {
         return clienteRepository.findAll();

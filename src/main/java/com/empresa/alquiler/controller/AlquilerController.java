@@ -3,6 +3,8 @@ package com.empresa.alquiler.controller;
 import com.empresa.alquiler.model.Alquiler;
 import com.empresa.alquiler.model.enums.EstadoAlquiler;
 import com.empresa.alquiler.service.AlquilerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +14,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/alquiler")
 public class AlquilerController {
-
-    private final AlquilerService alquilerService;
-
-    public AlquilerController(AlquilerService alquilerService) {
-        this.alquilerService = alquilerService;
-    }
+    @Autowired
+    private AlquilerService alquilerService;
 
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
