@@ -40,43 +40,57 @@ Asegúrate de tener la base creada y ejecutar el siguiente script:
 
 ```sql
 -- Script base de datos
-CREATE TABLE cliente (
-    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL
-);
+CREATE DATABASE `BD2_Carquin`;
 
-INSERT INTO cliente (nombre, email) VALUES
-('Juan Pérez', 'juan@email.com'),
-('Ana Torres', 'ana@email.com'),
-('Luis Gutiérrez', 'luis@email.com');
+use BD2_Carquin;
 
-CREATE TABLE pelicula (
-    id_pelicula INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100) NOT NULL,
-    genero VARCHAR(50) NOT NULL,
-    stock INT NOT NULL
-);
+CREATE TABLE `clientes` (
+  `id_cliente` int NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO pelicula (titulo, genero, stock) VALUES
-('Matrix', 'Ciencia Ficción', 10),
-('Titanic', 'Romance', 5),
-('Inception', 'Acción', 8);
+CREATE TABLE `peliculas` (
+  `id_pelicula` int NOT NULL,
+  `genero` varchar(50) NOT NULL,
+  `stock` int NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_pelicula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE alquiler (
-    id_alquiler INT PRIMARY KEY AUTO_INCREMENT,
-    fecha DATE NOT NULL,
-    id_cliente INT,
-    total DECIMAL(10,2),
-    estado VARCHAR(20),
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
-);
+CREATE TABLE `alquileres` (
+  `id_alquiler` int NOT NULL AUTO_INCREMENT,
+  `estado` enum('ACTIVO','DEVUELTO','RETRASADO') NOT NULL,
+  `fecha` date NOT NULL,
+  `total` double NOT NULL,
+  `id_cliente` int NOT NULL,
+  PRIMARY KEY (`id_alquiler`),
+  KEY `FKc32vjwe393watfcig6e5udx5x` (`id_cliente`),
+  CONSTRAINT `FKc32vjwe393watfcig6e5udx5x` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE detalle_alquiler (
-    id_alquiler INT,
-    id_pelicula INT,
-    cantidad INT,
-    PRIMARY KEY (id_alquiler, id_pelicula),
-    FOREIGN KEY (id_alquiler) REFERENCES alquiler(id_alquiler),
-    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula)
-);
+CREATE TABLE `detalle_alquiler` (
+  `id_alquiler` int NOT NULL,
+  `id_pelicula` int NOT NULL,
+  `cantidad` int NOT NULL,
+  PRIMARY KEY (`id_alquiler`,`id_pelicula`),
+  KEY `FK6059wr1fl3get229o3hoaq740` (`id_pelicula`),
+  CONSTRAINT `FK2umgu6w5nl9cg9ax6nxi5bqmf` FOREIGN KEY (`id_alquiler`) REFERENCES `alquileres` (`id_alquiler`),
+  CONSTRAINT `FK6059wr1fl3get229o3hoaq740` FOREIGN KEY (`id_pelicula`) REFERENCES `peliculas` (`id_pelicula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+INSERT INTO clientes VALUES (1,'Ana Torres','ana@mail.com'),(2,'Luis Pérez','luis@mail.com'),(3,'María Díaz','maria@mail.com');
+INSERT INTO peliculas (id_pelicula, titulo, genero, stock) 
+VALUES 
+  (1, 'Lilo & Stich', 'Animada', 5),
+  (2, 'Titanic', 'Romance', 3),
+  (3, 'Matrix', 'Acción', 4);
+
+select * from clientes c;
+select * from peliculas p;
+select * from alquileres a ;
+select * from detalle_alquiler da ;
+
+
