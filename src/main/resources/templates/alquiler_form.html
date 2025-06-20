@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Nuevo Alquiler</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+
+      h1,
+      h2 {
+        font-size: 20px;
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+      }
+
+      form {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        font-size: 14px;
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+
+      select,
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .pelicula-item {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .pelicula-item select,
+      .pelicula-item input {
+        flex: 1;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: #404040;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #2b2b2b;
+      }
+
+      #peliculas-container {
+        margin-top: 20px;
+      }
+
+      hr {
+        margin: 60px 0 30px;
+        border: none;
+        border-top: 2px solid #ccc;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 auto 60px;
+        font-size: 12px;
+        background: white;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      table thead {
+        background-color: #606060;
+        color: white;
+      }
+
+      table th {
+        font-size: 14px;
+        padding: 12px 14px;
+        text-align: left;
+      }
+
+      table td {
+        font-size: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      table tbody tr {
+        background-color: white;
+        transition: background-color 0.2s;
+        cursor: pointer;
+      }
+
+      table tbody tr:hover {
+        background-color: #d6d6d6;
+      }
+
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+      }
+
+      .modal-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+      }
+
+      .modal-content h2 {
+        margin-top: 0;
+        font-size: 20px;
+        color: #2c3e50;
+      }
+
+      .modal-content p {
+        margin: 10px 0;
+      }
+
+      .modal-content button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #404040;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .modal-content button:hover {
+        background-color: #2b2b2b;
+      }
+
+      .boton-peliculas {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #404040;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      .boton-peliculas:hover {
+        background-color: #2b2b2b;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: letf; margin-bottom: 20px">
+      <a href="/peliculas" class="boton-peliculas"
+        >🎬 Ver Películas Disponibles</a
+      >
+    </div>
+    <h1>Registrar Alquiler</h1>
+
+    <form th:action="@{/alquiler/registrar}" method="post">
+      <label for="cliente">Cliente:</label>
+      <select name="idCliente" id="cliente" required>
+        <option value="" disabled selected>Seleccione un cliente</option>
+        <option
+          th:each="c : ${clientes}"
+          th:value="${c.idCliente}"
+          th:text="${c.nombre}"
+        ></option>
+      </select>
+
+      <div id="peliculas-container">
+        <div class="pelicula-item">
+          <div style="flex: 1">
+            <label>Película:</label>
+            <select name="idPelicula" required>
+              <option value="" disabled selected>
+                Seleccione una película
+              </option>
+              <option
+                th:each="p : ${peliculas}"
+                th:value="${p.idPelicula}"
+                th:text="${p.titulo}"
+              ></option>
+            </select>
+          </div>
+          <div style="flex: 1; width: 80px">
+            <label>Cantidad:</label>
+            <input
+              type="number"
+              name="cantidad"
+              min="1"
+              style="width: 80px"
+              required
+            />
+          </div>
+          <div style="display: flex; align-items: flex-end">
+            <button
+              type="button"
+              onclick="eliminarCampo(this)"
+              style="background-color: #c0392b; padding: 6px 10px"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" onclick="agregarCampo()">
+        + Agregar otra película
+      </button>
+      <br /><br />
+      <button type="submit">Registrar</button>
+    </form>
+
+    <hr />
+
+    <h2>Historial de Alquileres</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="a : ${alquileres}">
+          <td th:text="${a.idAlquiler}"></td>
+          <td th:text="${a.cliente.nombre}"></td>
+          <td th:text="${a.fecha}"></td>
+          <td th:text="${a.total}"></td>
+          <td th:text="${a.estado}"></td>
+          <td>
+            <a th:href="@{'/alquiler/detalle/' + ${a.idAlquiler}}">
+              <button style="padding: 6px 10px; font-size: 12px">
+                Ver detalle
+              </button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      function agregarCampo() {
+        const container = document.getElementById("peliculas-container");
+        const original = container.querySelector(".pelicula-item");
+        const clone = original.cloneNode(true);
+        clone.querySelectorAll("select, input").forEach((el) => {
+          if (el.tagName === "SELECT") el.selectedIndex = 0;
+          if (el.tagName === "INPUT") el.value = "";
+        });
+        container.appendChild(clone);
+      }
+
+      function cerrarModal() {
+        window.location.href = "/alquiler/nuevo";
+      }
+
+      function eliminarCampo(button) {
+        const container = document.getElementById("peliculas-container");
+        const item = button.closest(".pelicula-item");
+        if (container.children.length > 1) {
+          item.remove();
+        } else {
+          alert("Debe haber al menos una película.");
+        }
+      }
+    </script>
+  </body>
+
+  <div id="modalExito" class="modal" th:if="${popupSuccess}">
+    <div class="modal-content">
+      <h2>Alquiler Registrado</h2>
+      <p>
+        <strong>Cliente:</strong>
+        <span th:text="${alquiler.cliente.nombre}"></span>
+      </p>
+      <p><strong>Total:</strong> $<span th:text="${alquiler.total}"></span></p>
+      <p><strong>Fecha:</strong> <span th:text="${alquiler.fecha}"></span></p>
+      <p><strong>Estado:</strong> <span th:text="${alquiler.estado}"></span></p>
+      <button onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <div id="modalError" class="modal" th:if="${popupError}">
+    <div class="modal-content">
+      <h2 style="color: rgb(242, 13, 13)">Error al registrar</h2>
+      <p th:text="${error}"></p>
+      <button onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</html>

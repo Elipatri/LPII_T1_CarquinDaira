@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Películas Disponibles</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #606060;
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+      background-color: #f0f0f0;
+    }
+
+    .volver {
+      display: block;
+      margin: 30px auto 0;
+      width: fit-content;
+      padding: 10px 20px;
+      background-color: #404040;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .volver:hover {
+      background-color: #2b2b2b;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Películas Disponibles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Género</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="p : ${peliculas}">
+      <td th:text="${p.idPelicula}">1</td>
+      <td th:text="${p.titulo}">Ejemplo</td>
+      <td th:text="${p.genero}">Drama</td>
+      <td th:text="${p.stock}">5</td>
+    </tr>
+  </tbody>
+</table>
+
+
+  <a href="/alquiler/nuevo" class="volver">⬅ Volver al formulario</a>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Detalle Alquiler</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .acciones {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .acciones form {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        button {
+            background-color: #404040;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2b2b2b;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Detalle del Alquiler</h2>
+
+    <p><strong>Cliente:</strong> <span th:text="${alquiler.cliente.nombre}"></span></p>
+    <p><strong>Fecha:</strong> <span th:text="${alquiler.fecha}"></span></p>
+    <p><strong>Estado:</strong> <span th:text="${alquiler.estado}"></span></p>
+    <p><strong>Total:</strong> $<span th:text="${alquiler.total}"></span></p>
+
+    <h3>Películas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="detalle : ${alquiler.detalles}">
+                <td th:text="${detalle.pelicula.titulo}"></td>
+                <td th:text="${detalle.cantidad}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="acciones" th:if="${alquiler.estado.name() != 'DEVUELTO'}">
+        <form th:action="@{/alquiler/cambiarEstado}" method="post">
+            <input type="hidden" name="idAlquiler" th:value="${alquiler.idAlquiler}" />
+            <button name="estado" value="DEVUELTO">Marcar como Devuelto</button>
+            <button name="estado" value="RETRASADO">Marcar como Retrasado</button>
+        </form>
+    </div>
+
+    <div class="acciones">
+        <a href="/alquiler/nuevo"><button>Volver</button></a>
+    </div>
+</div>
+</body>
+</html>
