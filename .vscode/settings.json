@@ -1,6 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "java.project.sourcePaths": [
-        "LPII_T1_CARQUIN_DAIRA/src/main/java/com/empresa/alquiler/model"
-    ]
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
